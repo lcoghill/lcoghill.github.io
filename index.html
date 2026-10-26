@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lyndon Coghill · Writing the next chapter</title>
+  <meta name="description" content="New site in progress. The next chapter is being written.">
+  <meta name="theme-color" content="#E8D7B4">
+
+  <!-- Social preview -->
+  <meta property="og:title" content="Lyndon Coghill · Writing the next chapter">
+  <meta property="og:description" content="New site in progress.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://[GITHUB USERNAME].github.io/">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23E8D7B4'/%3E%3Cpath d='M16 4 L19 16 L16 28 L13 16 Z' fill='none' stroke='%233B2A1A' stroke-width='1.5'/%3E%3Cpath d='M16 4 L19 16 L13 16 Z' fill='%239A3F1C'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Libre+Caslon+Text:wght@700&family=IM+Fell+English:ital@1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --paper: #E8D7B4;
+      --ink: #3B2A1A;
+      --ink-soft: #4F3D28;
+      --sepia: #5A4630;
+      --contour: #6B5232;
+      --accent: #9A3F1C;
+      --accent-text: #8F3C1A;
+      --creek: #4E6A78;
+      --cream: #EFE2C4;
+      --display: 'Libre Caslon Display', Georgia, 'Times New Roman', serif;
+      --serif: 'Libre Caslon Text', Georgia, serif;
+      --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; }
+    body {
+      position: relative;
+      overflow-x: hidden;
+      min-height: 100vh;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      color: var(--ink);
+      font-family: var(--mono);
+      background-color: var(--paper);
+      background-image:
+        radial-gradient(ellipse at 50% 45%, rgba(0,0,0,0) 55%, rgba(110,72,30,0.30) 100%),
+        linear-gradient(rgba(92,64,36,0.10) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(92,64,36,0.10) 1px, transparent 1px);
+      background-size: 100% 100%, 48px 48px, 48px 48px;
+      background-attachment: fixed, scroll, scroll;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--ink); }
+
+    /* Map layer */
+    .map {
+      position: fixed; inset: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 0;
+    }
+    .layer { position: relative; z-index: 1; }
+
+    .rule-top { display: flex; flex-direction: column; gap: 3px; padding: 14px 18px 0; }
+    .rule-top span { display: block; background: var(--ink); }
+    .rule-top span:first-child { height: 2px; }
+    .rule-top span:last-child { height: 1px; }
+
+    .wrap { width: 100%; max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+    header.wrap {
+      padding-top: 30px;
+      display: flex; flex-wrap: wrap; gap: 16px;
+      justify-content: space-between; align-items: center;
+    }
+    .name {
+      font-family: var(--serif); font-weight: 700; font-size: 22px;
+      letter-spacing: 0.14em; text-transform: uppercase;
+    }
+    .status {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 7px 14px; border: 1px solid var(--ink); font-size: 13px;
+    }
+
+    main.wrap { flex: 1 1 auto; padding-top: 80px; padding-bottom: 64px; }
+    .frame {
+      position: relative; max-width: 760px; padding: 40px 32px;
+      display: flex; flex-direction: column; gap: 28px;
+    }
+    .corner { position: absolute; width: 22px; height: 22px; }
+    .corner.tl { top: 0; left: 0; }
+    .corner.tr { top: 0; right: 0; }
+    .corner.bl { bottom: 0; left: 0; }
+    .corner.br { bottom: 0; right: 0; }
+
+    .eyebrow {
+      margin: 0; font-size: 14px; font-weight: 500;
+      letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent-text);
+    }
+    h1 {
+      margin: 0; font-family: var(--display); font-weight: 400;
+      font-size: clamp(52px, 8.5vw, 116px); line-height: 0.98;
+      letter-spacing: -0.01em; max-width: 11ch;
+    }
+    .marker { display: flex; align-items: center; }
+    .marker span:first-child { width: 120px; height: 3px; background: var(--accent); }
+    .marker span:last-child {
+      width: 10px; height: 10px; border: 2px solid var(--accent); border-radius: 50%;
+    }
+
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      min-height: 52px; padding: 0 24px;
+      font-family: var(--mono); font-weight: 500; font-size: 15px;
+      letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none;
+      transition: background-color .15s, color .15s, border-color .15s;
+    }
+    .btn-primary { background: var(--ink); color: var(--cream); }
+    .btn-primary:hover { background: var(--accent); color: var(--cream); }
+    .btn-ghost { border: 1.5px solid var(--ink); color: var(--ink); background: rgba(232,215,180,0.6); }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+    .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+    footer.wrap { padding-bottom: 40px; }
+    .foot {
+      border-top: 1.5px solid var(--ink); padding-top: 20px;
+      display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between;
+      font-size: 13px; color: var(--ink-soft);
+    }
+
+    @media (max-width: 700px) {
+      main.wrap { padding-top: 48px; padding-bottom: 48px; }
+      .frame { padding: 32px 22px; gap: 24px; }
+      .name { font-size: 18px; }
+      .map .data, .map .compass { display: none; }
+      .map .contours { opacity: 0.6; }
+    }
+  </style>
+</head>
+<body>
+  <svg class="map" aria-hidden="true" viewBox="0 0 1280 820" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <filter id="grain" x="0" y="0" width="100%" height="100%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="7"/>
+        <feColorMatrix type="matrix" values="0 0 0 0 0.36  0 0 0 0 0.24  0 0 0 0 0.12  0 0 0 0.55 0"/>
+      </filter>
+      <filter id="blotch" x="0" y="0" width="100%" height="100%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.006" numOctaves="2" seed="3"/>
+        <feColorMatrix type="matrix" values="0 0 0 0 0.45  0 0 0 0 0.30  0 0 0 0 0.12  0 0 0 0.9 -0.35"/>
+      </filter>
+    </defs>
+    <rect width="1280" height="820" filter="url(#blotch)" opacity="0.5"/>
+
+    <g class="contours" fill="none" stroke="#6B5232" stroke-width="1.1">
+      <path opacity="0.30" d="M820 -40 C1150 -90 1420 80 1390 340 C1360 640 1080 760 820 700 C590 645 540 430 620 230 C670 100 720 -20 820 -40 Z"/>
+      <path opacity="0.36" d="M880 40 C1120 0 1330 120 1310 330 C1290 560 1080 660 880 610 C700 565 650 410 710 250 C750 140 790 60 880 40 Z"/>
+      <path opacity="0.42" d="M940 120 C1090 90 1230 180 1220 320 C1210 470 1060 560 920 520 C790 485 760 370 800 260 C830 180 870 135 940 120 Z"/>
+      <path opacity="0.48" d="M945 160 C1060 140 1170 210 1165 320 C1160 430 1050 500 935 475 C840 455 815 365 845 280 C870 215 890 172 945 160 Z"/>
+      <path opacity="0.54" d="M950 200 C1035 190 1115 240 1110 320 C1105 400 1030 445 950 430 C885 418 865 360 885 300 C900 250 915 208 950 200 Z"/>
+      <path opacity="0.60" d="M958 245 C1010 240 1058 272 1055 320 C1052 370 1008 395 960 388 C925 382 912 350 922 315 C930 285 935 250 958 245 Z"/>
+      <path opacity="0.66" d="M965 290 C990 288 1010 302 1008 322 C1006 342 988 352 968 348 C952 345 946 333 950 318 C953 305 955 292 965 290 Z"/>
+      <path opacity="0.36" d="M-60 640 C120 580 300 620 420 700 C520 765 560 840 560 900 L-60 900 Z"/>
+      <path opacity="0.30" d="M-60 700 C90 655 240 685 340 750 C420 800 450 850 450 900 L-60 900 Z"/>
+      <path opacity="0.24" d="M-60 760 C60 730 180 750 260 800 C320 838 340 870 340 900 L-60 900 Z"/>
+    </g>
+
+    <path d="M700 820 C720 760 690 700 735 650 C780 600 760 560 800 520" fill="none" stroke="#4E6A78" stroke-width="2" opacity="0.45"/>
+
+    <g class="data">
+      <!-- contour values -->
+      <g font-family="JetBrains Mono, monospace" font-size="9" fill="#6B5232" opacity="0.75">
+        <text x="1226" y="402">0.25</text>
+        <text x="1172" y="378">0.50</text>
+        <text x="1117" y="362">0.75</text>
+        <text x="1062" y="352">0.90</text>
+      </g>
+      <!-- field samples + fitted curve -->
+      <g opacity="0.8" transform="translate(830 640) scale(0.62) translate(-560 -430)">
+        <path d="M560 470 C640 445 720 438 800 446 C860 452 905 470 940 492" fill="none" stroke="#9A3F1C" stroke-width="1" stroke-dasharray="4 4" opacity="0.6"/>
+        <path d="M560 456 C640 430 720 422 800 430 C860 436 905 454 940 476 L940 508 C905 486 860 468 800 462 C720 454 640 461 560 484 Z" fill="#9A3F1C" opacity="0.06"/>
+        <g fill="#3B2A1A">
+          <circle cx="572" cy="474" r="2.4"/><circle cx="603" cy="452" r="2.4"/><circle cx="641" cy="462" r="2.4"/>
+          <circle cx="668" cy="438" r="2.4"/><circle cx="702" cy="451" r="2.4"/><circle cx="733" cy="433" r="2.4"/>
+          <circle cx="767" cy="452" r="2.4"/><circle cx="796" cy="437" r="2.4"/><circle cx="829" cy="459" r="2.4"/>
+          <circle cx="861" cy="448" r="2.4"/><circle cx="893" cy="476" r="2.4"/><circle cx="928" cy="481" r="2.4"/>
+        </g>
+      </g>
+      <text x="1072" y="684" font-family="JetBrains Mono, monospace" font-size="9" fill="#6B5232" opacity="0.8">n = 12</text>
+      <!-- left-edge axis -->
+      <g stroke="#5A4630" stroke-width="1" opacity="0.55">
+        <path d="M22 120 V760"/>
+        <path d="M22 120 h10 M22 160 h5 M22 200 h5 M22 240 h5 M22 280 h10 M22 320 h5 M22 360 h5 M22 400 h5 M22 440 h10 M22 480 h5 M22 520 h5 M22 560 h5 M22 600 h10 M22 640 h5 M22 680 h5 M22 720 h5 M22 760 h10"/>
+      </g>
+      <g font-family="JetBrains Mono, monospace" font-size="9" fill="#6B5232" opacity="0.75">
+        <text x="36" y="123">1.0</text><text x="36" y="283">0.75</text><text x="36" y="443">0.5</text>
+        <text x="36" y="603">0.25</text><text x="36" y="763">0</text>
+      </g>
+    </g>
+
+    <path d="M979 306 l7 12 h-14 Z" fill="#9A3F1C"/>
+    <text x="996" y="318" fill="#5A4630" font-family="IM Fell English, serif" font-style="italic" font-size="15" opacity="0.85">Summit</text>
+
+    <g class="compass" transform="translate(1160 700)" opacity="0.7">
+      <circle r="44" fill="none" stroke="#5A4630" stroke-width="1"/>
+      <circle r="38" fill="none" stroke="#5A4630" stroke-width="0.6" stroke-dasharray="2 3"/>
+      <path d="M0 -52 L7 0 L0 52 L-7 0 Z" fill="none" stroke="#5A4630" stroke-width="1"/>
+      <path d="M0 -52 L7 0 L-7 0 Z" fill="#9A3F1C" opacity="0.85"/>
+      <path d="M-52 0 L0 -6 L52 0 L0 6 Z" fill="none" stroke="#5A4630" stroke-width="0.8"/>
+      <text y="-58" text-anchor="middle" fill="#5A4630" font-family="Libre Caslon Display, serif" font-size="16">N</text>
+    </g>
+
+    <circle cx="210" cy="190" r="70" fill="none" stroke="#8A5A2B" stroke-width="5" opacity="0.07"/>
+    <circle cx="214" cy="186" r="66" fill="none" stroke="#8A5A2B" stroke-width="1.5" opacity="0.10"/>
+    <rect width="1280" height="820" filter="url(#grain)" opacity="0.35"/>
+  </svg>
+
+  <div class="rule-top layer" aria-hidden="true"><span></span><span></span></div>
+
+  <header class="wrap layer">
+    <div class="name">Lyndon Coghill</div>
+    <div class="status">
+      <svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#9A3F1C" stroke-width="1.5"><circle cx="6" cy="6" r="4"/><path d="M6 0v3M6 9v3M0 6h3M9 6h3"/></svg>
+      <span>Recalibrating</span>
+    </div>
+  </header>
+
+  <main class="wrap layer">
+    <div class="frame">
+      <svg class="corner tl" aria-hidden="true" viewBox="0 0 22 22" fill="none" stroke="#3B2A1A" stroke-width="1.5"><path d="M1 21V1h20"/></svg>
+      <svg class="corner tr" aria-hidden="true" viewBox="0 0 22 22" fill="none" stroke="#3B2A1A" stroke-width="1.5"><path d="M1 1h20v20"/></svg>
+      <svg class="corner bl" aria-hidden="true" viewBox="0 0 22 22" fill="none" stroke="#3B2A1A" stroke-width="1.5"><path d="M1 1v20h20"/></svg>
+      <svg class="corner br" aria-hidden="true" viewBox="0 0 22 22" fill="none" stroke="#3B2A1A" stroke-width="1.5"><path d="M21 1v20H1"/></svg>
+
+      <p class="eyebrow">New site in progress</p>
+      <h1>Writing the next chapter</h1>
+      <div class="marker" aria-hidden="true"><span></span><span></span></div>
+      <div class="actions">
+        <a class="btn btn-primary" href="mailto:nequals12@proton.me">
+          Get in touch
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="https://github.com/lcoghill" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="wrap layer">
+    <div class="foot">
+      <span>© <span id="yr">2026</span> Lyndon Coghill</span>
+      <span>Somewhere in the Midwest · Weather permitting</span>
+    </div>
+  </footer>
+
+  <script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+</body>
+</html>
